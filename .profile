@@ -55,6 +55,9 @@ fi
 export TERM=xterm-256color-italic
 
 
+source ${HOME}/.bash_aliases
+source ${HOME}/.bash_functions
+
 # Host-specific configuration postamble
 if [ -f "${HOME}/.profile.postamble" ]; then
     source ${HOME}/.profile.postamble
