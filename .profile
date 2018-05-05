@@ -59,5 +59,3 @@ export TERM=xterm-256color-italic
 if [ -f "${HOME}/.profile.postamble" ]; then
     source ${HOME}/.profile.postamble
 fi
-
-echo here

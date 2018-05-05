@@ -28,7 +28,7 @@ call plug#end()
 
 syntax on
 set termguicolors
-color cubular
+color my
 set background=dark
 
 "" Color and style
