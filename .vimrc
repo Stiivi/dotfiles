@@ -13,23 +13,21 @@ call plug#begin('~/.vim/plugged')
     Plug 'scrooloose/syntastic'
     Plug 'tpope/vim-surround'
     Plug 'Raimondi/delimitMate'
-    Plug 'vim-airline/vim-airline'
     Plug 'godlygeek/tabular'
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-    Plug 'gfontenot/vim-xcode'
     Plug 'tpope/vim-fugitive'
     Plug 'plasticboy/vim-markdown'
     Plug 'killphi/vim-ebnf'
-    Plug 'chrisbra/csv.vim'
-    Plug 'junegunn/goyo.vim'
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plug 'junegunn/fzf.vim'
+    Plug 'ekalinin/Dockerfile.vim'
+    Plug 'vimwiki/vimwiki'
+    Plug 'dhruvasagar/vim-table-mode'
+
 call plug#end()
 
 syntax on
-set termguicolors
-color my
-set background=dark
+"" set termguicolors
+color basic16
+set background=light
 
 "" Color and style
 ""
@@ -78,6 +76,8 @@ set noswapfile
 set nowritebackup
 set nobackup
 
+"" Spelling
+set spelllang=en_gb
 
 "" Key maps
 nmap <silent> te :NERDTreeToggle<CR>
@@ -87,12 +87,17 @@ nmap <silent> <f4> :TagbarToggle<CR>
 nmap <silent> tc :SyntasticCheck<CR>
 nmap <silent> <f3> :SyntasticCheck<CR>
 nmap <silent> tg :Gstatus<CR>
+nmap <silent> td :Gvdiff<CR>
 nmap <silent> th :Toch<CR>
 nmap <silent> tf :Goyo<CR>
 nmap <silent> <f2> :w<CR>
 imap <silent> <f2> <ESC>:w<CR>
 map [l :lprev<CR>
 map ]l :lnext<CR>
+" move among buffers with CTRL
+map <C-J> :bnext<CR>
+map <C-K> :bprev<CR>
+
 
 "" Plugins
 let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir']
@@ -130,7 +135,7 @@ let g:tagbar_left = 1
 
 "" Markdown: enable math
 let g:vim_markdown_math = 1
-set conceallevel=2
+set conceallevel=0
 
 let g:syntastic_swift_checkers=["swiftpm", "swiftlint"]
 let g:syntastic_python_checkers=["mypy", "pep8", "python"]
@@ -151,4 +156,3 @@ autocmd FileType hs setlocal shiftwidth=2 tabstop=2
 if filereadable($HOME . "/.vimrc.postamble")
     source $HOME/.vimrc.postamble
 endif
-
