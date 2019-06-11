@@ -16,7 +16,8 @@ autoload -Uz compinit
 autoload -Uz files
 compinit
 
-# Prompt
+# Version Control Prompt
+#
 setopt prompt_subst
 autoload -Uz vcs_info
 precmd() { vcs_info }
@@ -26,5 +27,8 @@ zstyle ':vcs_info:*' formats '(%u%b)'
 zstyle ':vcs_info:*' unstagedstr '%{%F{red}%}*%{%f%}'
 zstyle ':vcs_info:*' stagedstr '+'
 
-
 PROMPT='%n@%m:%B%1~%b${vcs_info_msg_0_}%# '
+
+# Configuration management
+#
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
