@@ -11,7 +11,7 @@ fi
 # Paths
 #
 
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/sbin:$PATH"
 
 case $system in
     Darwin)

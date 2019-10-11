@@ -33,7 +33,7 @@ set background=light
 ""
 set cursorline
 set fillchars=vert:│,fold:-
-hi VertSplit ctermfg=Black ctermbg=DarkGray
+" hi VertSplit ctermfg=Black ctermbg=DarkGray
 
 "" Formatting
 set encoding=utf-8
