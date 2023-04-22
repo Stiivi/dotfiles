@@ -1,5 +1,9 @@
 cdpath=($HOME/Developer/Projects $HOME/Documents)
 
+# Prevent homebrew from auto updating on install
+#
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 # Compensate for vim EDITOR variable
 bindkey -e
 
@@ -19,6 +23,7 @@ fpath=(~/.zsh $fpath)
 
 autoload -Uz compinit
 autoload -Uz files
+autoload -Uz zsh/attr
 compinit
 
 # Version Control Prompt
@@ -33,7 +38,8 @@ zstyle ':vcs_info:*' actionformats '[%b|%a]%u%c'
 zstyle ':vcs_info:*' unstagedstr '%{%F{red}%}%B!%b%{%f%}'
 zstyle ':vcs_info:*' stagedstr '+'
 
-PROMPT='%{%K{7}%}%n@%m:%B%1~%b${vcs_info_msg_0_}%#%{%k%} '
+PROMPT='%n@%m:%B%1~%b${vcs_info_msg_0_}%# '
+# PROMPT='%{%K{7}%}%n@%m:%B%1~%b${vcs_info_msg_0_}%#%{%k%} '
 # PROMPT='%{%K{7}%}%n@%m:%B%1~%b$%#%{%k%} '
 
 # Configuration management
@@ -45,4 +51,19 @@ alias ls="ls -GF"
 alias grep='grep --color'
 alias df="df -h"
 alias du="du -h"
+alias edit="$EDITOR"
 
+export PATH="/usr/local/opt/bison/bin:$PATH"
+
+# Ruby
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/ruby/lib"
+export CPPFLAGS="-I/usr/local/opt/ruby/include"
+export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
+
+
+
+
+source /usr/local/opt/chruby/share/chruby/chruby.sh
+source /usr/local/opt/chruby/share/chruby/auto.sh
+chruby ruby-3.1.2

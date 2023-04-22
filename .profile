@@ -35,7 +35,7 @@ export CDPATH=".:~:${DEVELOPER_PATH}:${PROJECTS_PATH}:${DOCS_PATH}"
 export PYTHON_ENVIRONMENTS=${DEVELOPER_PATH}/python-venv
 
 # Editor
-export EDITOR=vim
+export EDITOR=nvim
 
 # Git completion
 #
@@ -62,3 +62,4 @@ source ${HOME}/.bash_functions
 if [ -f "${HOME}/.profile.postamble" ]; then
     source ${HOME}/.profile.postamble
 fi
+. "$HOME/.cargo/env"

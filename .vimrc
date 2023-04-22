@@ -22,17 +22,23 @@ call plug#begin('~/.vim/plugged')
     Plug 'vimwiki/vimwiki'
     Plug 'dhruvasagar/vim-table-mode'
 
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'liuchengxu/vista.vim'
+    Plug 'cespare/vim-toml'
+    Plug 'morhetz/gruvbox'
+
 call plug#end()
 
 syntax on
 "" set termguicolors
 color basic16
-set background=light
+set background=dark
 
 "" Color and style
 ""
 set cursorline
-set fillchars=vert:│,fold:-
+set fillchars=vert:┃,fold:-,stl:─,stlnc:━
 " hi VertSplit ctermfg=Black ctermbg=DarkGray
 
 "" Formatting
@@ -40,14 +46,18 @@ set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 
+set linebreak
 set textwidth=79
 set colorcolumn=80
 set laststatus=2
 set linespace=1
 set autoindent
+set display+=lastline
 
 set mouse=a
-set ttymouse=sgr
+if !has('nvim')
+    set ttymouse=sgr
+endif
 
 "" Whitespace
 set nowrap                      " don't wrap lines
@@ -101,6 +111,7 @@ map <C-K> :bprev<CR>
 
 "" Plugins
 let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir']
+let g:ctrlp_custom_ignore = '__pycache__\|git'
 let g:ctrlp_switch_buffer = 'et'
 
 let delimitMate_nesting_quotes = ['"','`']
@@ -108,6 +119,12 @@ let delimitMate_nesting_quotes = ['"','`']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_exit_checks = 0
+let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_compiler_options = ' -std=c++2a -stdlib=libc++'
+
+let g:syntastic_cpp_compiler = 'cc'
+let g:syntastic_cpp_compiler_options = ' -std=c17 -stdlib=libc++'
+
 
 let g:airline_section_x = '%{airline#util#prepend(airline#extensions#tagbar#currenttag(),0)}'
 let g:airline_section_y = ''
@@ -115,9 +132,7 @@ let g:airline_section_y = ''
 let g:python_highlight_builtin_funcs=1
 let g:python_highlight_builtin_objs=1
 
-let g:vim_markdown_folding_disabled = 1
-
-let g:NERDTreeWinPos = "right"
+let g:NERDTreeWinPos = "left"
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
 "" Recognize markdown objects in the tagbar. Requires separate ctags
@@ -131,11 +146,25 @@ let g:tagbar_type_markdown = {
     \ ],
     \ 'sort'    : 0,
     \ }
-let g:tagbar_left = 1
+let g:tagbar_left = 0
 
 "" Markdown: enable math
 let g:vim_markdown_math = 1
-set conceallevel=0
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_frontmatter = 1
+set conceallevel=2
+
+set nonumber
+set statusline=%t%m%r
+set statusline+=%m
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set statusline+=%=%l/%L
+
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_always_populate_loc_list = 1
+"" let g:syntastic_auto_loc_list = 1
 
 let g:syntastic_swift_checkers=["swiftpm", "swiftlint"]
 let g:syntastic_python_checkers=["mypy", "pep8", "python"]
@@ -156,3 +185,42 @@ autocmd FileType hs setlocal shiftwidth=2 tabstop=2
 if filereadable($HOME . "/.vimrc.postamble")
     source $HOME/.vimrc.postamble
 endif
+
+"" LSP - Language Server Protocol
+"" ==============================
+
+""if executable('sourcekit-lsp')
+if executable('sourcekit-lsp')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'sourcekit-lsp',
+        \ 'cmd': {server_info->['sourcekit-lsp']},
+        \ 'whitelist': ['swift'],
+        \ })
+endif
+autocmd FileType swift setlocal omnifunc=lsp#complete
+autocmd FileType swift nnoremap <C-]> :LspDefinition<CR>
+let g:lsp_diagnostics_echo_cursor = 1 
+
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gT <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+

@@ -32,9 +32,12 @@ if &background == "light"
 
     hi Conceal gui=NONE cterm=NONE ctermbg=7
 
+    hi Folded gui=NONE cterm=NONE ctermbg=11 ctermfg=NONE
+
     "" Search
     hi Search gui=NONE cterm=NONE ctermbg=LightGray
-    hi MatchParen gui=NONE cterm=NONE ctermbg=7
+    hi MatchParen gui=NONE cterm=underline 
+    ""ctermbg=7
 
     "" Syntax
     hi Comment gui=italic cterm=italic ctermfg=8
@@ -49,6 +52,7 @@ if &background == "light"
     hi String gui=NONE cterm=NONE ctermfg=2 
     hi Type gui=NONE cterm=NONE ctermfg=4 
     hi Identifier gui=NONE cterm=NONE ctermfg=4 
+    hi Function gui=NONE cterm=NONE ctermfg=3 
 
     hi Todo gui=bold,standout cterm=bold,standout ctermfg=11 ctermbg=0
     "" Errors 
@@ -74,11 +78,11 @@ elseif &background == "dark"
     hi Visual gui=NONE cterm=NONE ctermbg=8
 
     "" User Interface
-    hi StatusLine gui=bold cterm=bold ctermfg=15 ctermbg=8
+    hi StatusLine gui=bold cterm=bold ctermfg=15 ctermbg=7
     hi StatusLineNC gui=none cterm=none ctermfg=0 ctermbg=8
 
     hi TabLine gui=NONE cterm=NONE ctermfg=7 ctermbg=8
-    hi TabLineSel gui=NONE cterm=NONE ctermfg=7 ctermbg=0
+    hi TabLineSel gui=NONE cterm=NONE ctermfg=0 ctermbg=7
     hi TabLineFill gui=NONE cterm=NONE ctermbg=8
     hi VertSplit gui=NONE cterm=NONE ctermfg=7
 
@@ -88,7 +92,8 @@ elseif &background == "dark"
 
     "" Search
     hi Search gui=NONE cterm=NONE ctermfg=7 ctermbg=8
-    hi MatchParen gui=NONE cterm=NONE ctermbg=12
+    hi MatchParen gui=NONE cterm=underline
+    "" ctermbg=12
 
     "" Syntax
     hi Comment gui=italic cterm=italic ctermfg=7

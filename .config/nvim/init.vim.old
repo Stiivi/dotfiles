@@ -1,0 +1,52 @@
+lua require('plugins')
+
+" set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+" source ~/.vimrc
+"
+
+syntax on
+set background=dark
+set termguicolors
+colorscheme melange
+
+" set cursorline
+
+filetype plugin indent on
+set linebreak
+set textwidth=79
+set colorcolumn=80
+" set linespace=1
+
+set mouse=a
+
+"" Whitespace
+
+set nowrap
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+set ignorecase
+set smartcase
+
+"" Swap/Backup
+set noswapfile
+set backupdir=~/tmp
+set nowritebackup
+set nobackup
+
+set spelllang=en_gb
+
+"" Key maps
+"" Save as in Borland C++ 3.1 IDE
+nmap <silent> <f2> :w<CR>
+imap <silent> <f2> <ESC>:w<CR>
+
+"" MacOS Terminal Title - proxy icon to edited document
+set title
+set t_ts=]6;
+set t_fs=
+set titlestring=%{bufname('%')==''?'':'file://'.hostname().expand('%:p:gs/\ /%20/')}
+set titlelen=0
+
