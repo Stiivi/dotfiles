@@ -12,6 +12,9 @@ return require('packer').startup(function(use)
 
     use 'nvim-tree/nvim-web-devicons'
 
+    use 'nvim-treesitter/nvim-treesitter'
+    use 'nvim-treesitter/nvim-treesitter-context'
+
     -- Colors
     use "savq/melange"
     use "rebelot/kanagawa.nvim"
