@@ -1,0 +1,66 @@
+# Secrets & credentials
+# ---------------------------------------------------------------------------
+.ssh/
+.gnupg/
+.kube/
+.aws/
+.npmrc
+.pypirc
+.netrc
+.htpasswd
+*.env
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Caches / build output / language runtimes
+# ---------------------------------------------------------------------------
+.cache/
+.local/
+.Trash/
+.fzf/
+.cargo/registry/
+.cargo/bin/
+.cargo/.package-cache
+.rustup/
+.gem/
+.bundle/
+.ivy2/
+.m2/
+.npm/
+.deno/
+.pyenv/
+.rbenv/
+.python-version
+.swipem/
+.cups/
+.dropbox/
+
+# zsh runtime
+.zsh_sessions/
+.zsh_history
+.zsh_history.*
+.zcompdump*
+
+# Per-app config under ~/.config
+# ---------------------------------------------------------------------------
+# Version only what we track, ignore the rest
+#
+.config/*
+!.config/nvim/
+.vim/*
+!.vim/colors/
+
+# Host-specific (per-machine, not versioned)
+# ---------------------------------------------------------------------------
+.gitconfig-host
+
+# OS / editor noise
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

@@ -120,23 +120,29 @@ vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", {silent = tru
 
 
 -- Setup language servers.
-local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {
+-- local lspconfig = require('lspconfig')
+vim.lsp.enable('pyright')
+vim.lsp.config('pyright', {
   settings = {
     python = {
       exclude = {"build", "dist"},
     }
   }
+})
 
-}
-lspconfig.tsserver.setup {}
-lspconfig.rust_analyzer.setup {
+vim.lsp.enable('tsserver')
+vim.lsp.enable('rus_analyzer')
+
+vim.lsp.config('rust_analyzer', {
   -- Server-specific settings. See `:help lspconfig-setup`
   settings = {
     ['rust-analyzer'] = {},
   },
-}
-require'lspconfig'.pylsp.setup{
+})
+
+vim.lsp.enable('pylsp')
+
+vim.lsp.config('pylsp', {
   settings = {
     pylsp = {
       plugins = {
@@ -148,7 +154,7 @@ require'lspconfig'.pylsp.setup{
       }
     },
   }
-}
+})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

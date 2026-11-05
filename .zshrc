@@ -1,21 +1,24 @@
-cdpath=($HOME/Developer/Projects $HOME/Documents)
+# Host-specific
+#
+if [ -f "$HOME/.zshrc.preamble" ]; then
+    source "$HOME/.zshrc.preamble"
+fi
 
 # Prevent homebrew from auto updating on install
-#
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-# Compensate for vim EDITOR variable
+# Emacs-style line editing (compensate for the EDITOR variable)
 bindkey -e
 
-# Modules
-
+# Completion
+#
 export ZLS_COLOURS
 zstyle ':completion:*' list-colors ''
-#
-# Enable menu style completion
+zstyle ':completion:*' completer _complete _ignored _files
 zstyle ':completion:*' menu yes select
 
 # Search history
+#
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
@@ -23,14 +26,12 @@ fpath=(~/.zsh $fpath)
 
 autoload -Uz compinit
 autoload -Uz files
-autoload -Uz zsh/attr
 compinit
 
 # Version Control Prompt
 #
 setopt prompt_subst
 autoload -Uz vcs_info
-# precmd() { vcs_info }
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' enable git cvs svn
 zstyle ':vcs_info:*' formats '[%b]%u%c'
@@ -39,32 +40,50 @@ zstyle ':vcs_info:*' unstagedstr '%{%F{red}%}%B!%b%{%f%}'
 zstyle ':vcs_info:*' stagedstr '+'
 
 PROMPT='%n@%m:%B%1~%b${vcs_info_msg_0_}%# '
-# PROMPT='%{%K{7}%}%n@%m:%B%1~%b${vcs_info_msg_0_}%#%{%k%} '
-# PROMPT='%{%K{7}%}%n@%m:%B%1~%b$%#%{%k%} '
 
 # Configuration management
 #
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Other aliases
+#
 alias ls="ls -GF"
 alias grep='grep --color'
 alias df="df -h"
 alias du="du -h"
-alias edit="$EDITOR"
+alias edit="${EDITOR:-nvim}"
 
-#export PATH="/usr/local/opt/bison/bin:$PATH"
+# PATH extensions
+#
+for _p in "$HOME/bin" "$HOME/.swiftpm/bin"; do
+    [ -d "$_p" ] && PATH="$_p:$PATH"
+done
+unset _p
 
-# Ruby
-# export PATH="/usr/local/opt/ruby/bin:$PATH"
-# export LDFLAGS="-L/usr/local/opt/ruby/lib"
-# export CPPFLAGS="-I/usr/local/opt/ruby/include"
-# export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
+# Homebrew (macOS only). Skipped on machines without brew.
+#
+if command -v brew >/dev/null 2>&1; then
+    brew_prefix="$(brew --prefix)"
 
-PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+    # GNU make (gnubin) in front of the BSD make
+    [ -d "$brew_prefix/opt/make/libexec/gnubin" ] && PATH="$brew_prefix/opt/make/libexec/gnubin:$PATH"
 
+    # Ruby via chruby — deterministic selection for a consistent environment
+    if [ -d "$brew_prefix/opt/chruby/share/chruby" ]; then
+        source "$brew_prefix/opt/chruby/share/chruby/chruby.sh"
+        chruby ruby-3.1.3   # run `chruby` to see available versions
+    fi
+fi
+export PATH
 
+# Fuzzy finder (fzf) — use the modern generator; the old ~/.fzf.zsh is obsolete
+#
+if command -v fzf >/dev/null 2>&1; then
+    source <(fzf --zsh)
+fi
 
-# source /usr/local/opt/chruby/share/chruby/chruby.sh
-# source /usr/local/opt/chruby/share/chruby/auto.sh
-# chruby ruby-3.1.2
+# Host-specific post-amble (per-machine overrides; not versioned)
+#
+if [ -f "$HOME/.zshrc.postamble" ]; then
+    source "$HOME/.zshrc.postamble"
+fi
